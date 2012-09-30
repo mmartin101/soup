@@ -1,7 +1,6 @@
-package login;
+package com.soup.login;
 
 import java.io.IOException;
-import java.sql.*;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -10,10 +9,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.apache.commons.lang3.StringUtils;
-
-import util.BCrypt;
-import util.DatabaseHelper;
+import com.j256.ormlite.dao.Dao;
+import com.j256.ormlite.dao.DaoManager;
+import com.j256.ormlite.jdbc.JdbcPooledConnectionSource;
+import com.j256.ormlite.logger.Logger;
+import com.j256.ormlite.logger.LoggerFactory;
+import com.soup.util.BCrypt;
+import com.soup.util.DatabaseHelper;
 
 
 /**
@@ -64,42 +66,57 @@ public class LoginServlet extends HttpServlet
 	{
 		HttpSession session = request.getSession();
 		
-		String reqType = request.getParameter("REQUEST_TYPE");
+		String reqType = request.getParameter("REQ_TYPE");
 		String username = request.getParameter("U");
 		String pw = request.getParameter("P");
 		String email = request.getParameter("EMAIL");
 		
+		JdbcPooledConnectionSource cs = DatabaseHelper.getDBConnection();
 		if (LoginRequestType.LOGIN.getName().equals(reqType))
 		{
 			//do login action
-			Connection connection = DatabaseHelper.getDBConnection();
-			User user = UserHelper.getUserFromDBByValue(connection, "USER_NAME", username);
-			
-			if(UserHelper.verifyUser(user, connection, username, pw))
+			User user = UserHelper.getUserFromDBByValue(cs, User.USERNAME_COLUMN_NAME, username);
+			try
 			{
-				session.setAttribute("User", user);
+				if(UserHelper.verifyUser(cs, username, pw))
+				{
+					session.setAttribute("User", user);
+					response.getWriter().println("logged in successfully :)");
+					
+				}
+				else
+				{
+					response.getWriter().println("user information incorrect");
+				}
+			} catch (IOException e)
+			{
+				e.printStackTrace();
 			}
 		}
 		else if (LoginRequestType.REGISTER.getName().equals(reqType))
 		{
 			//do register action
-			Connection connection = DatabaseHelper.getDBConnection();
 			try
 			{
-				Statement stmt = connection.createStatement();
-				String query = "SELECT * FROM USERS WHERE USER_NAME ='" + username + "';";
-				ResultSet results = stmt.executeQuery(query);
-				if (!results.next())
-				{
-					query = "INSERT INTO USERS (USER_NAME, PASSWORD, EMAIL_ADDRESS) VALUES('" + username + "', '" + BCrypt.hashpw(pw, BCrypt.gensalt()) + "', '" + email + "');";
-					System.out.println(query);
-					stmt.execute(query);
-				}
-				else
+				User userFromDB = UserHelper.getUserFromDBByValue(cs, User.USERNAME_COLUMN_NAME, username);
+				
+				if(userFromDB != null)
 				{
 					response.getWriter().print("user name already exists");
 				}
-			} catch (Exception e)
+				else
+				{
+					//create new user
+					Dao<User, Integer> userDao = DaoManager.createDao(cs, User.class);
+					User user = new User();
+					user.setUser_name(username);
+					user.setPassword(BCrypt.hashpw(pw, BCrypt.gensalt()));
+					user.setEmail_address(email);
+					userDao.create(user);
+					System.out.println("new user created");
+				}
+			} 
+			catch (Exception e)
 			{
 				e.printStackTrace();
 			}
