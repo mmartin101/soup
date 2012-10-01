@@ -12,9 +12,12 @@ public class Picture extends DBObject
 {
 	@DatabaseField(columnName = "PATH", canBeNull = false)
 	private String path;
+	//might not need this one
 	@DatabaseField(columnName = "FILENAME", canBeNull = false)
 	private String fileName;
-	@DatabaseField(columnName = "USER_ID", foreign = true, canBeNull = false)
+	@DatabaseField(columnName = "URL_NAME", canBeNull = false)
+	private String urlName;
+	@DatabaseField(columnName = "USER_ID", foreign = true)
 	private User user;
 	@ForeignCollectionField(eager = true)
 	private ForeignCollection<Comment> comments;
@@ -57,5 +60,15 @@ public class Picture extends DBObject
 	public void setComments(ForeignCollection<Comment> comments)
 	{
 		this.comments = comments;
-	}	
+	}
+
+	public String getUrlName()
+	{
+		return urlName;
+	}
+
+	public void setUrlName(String urlName)
+	{
+		this.urlName = urlName;
+	}
 }

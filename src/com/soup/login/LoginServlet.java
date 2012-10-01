@@ -74,7 +74,7 @@ public class LoginServlet extends HttpServlet
 		JdbcPooledConnectionSource cs = DatabaseHelper.getDBConnection();
 		if (LoginRequestType.LOGIN.getName().equals(reqType))
 		{
-			//do login action
+			// do login action
 			User user = UserHelper.getUserFromDBByValue(cs, User.USERNAME_COLUMN_NAME, username);
 			try
 			{
@@ -82,11 +82,13 @@ public class LoginServlet extends HttpServlet
 				{
 					session.setAttribute("User", user);
 					response.getWriter().println("logged in successfully :)");
-					
+					response.sendRedirect("HelloWorldServlet");
 				}
 				else
 				{
-					response.getWriter().println("user information incorrect");
+					// user information incorrect
+//					response.setHeader("name", "value :)");
+					response.setStatus(HttpServletResponse.SC_PRECONDITION_FAILED);
 				}
 			} catch (IOException e)
 			{
@@ -95,7 +97,7 @@ public class LoginServlet extends HttpServlet
 		}
 		else if (LoginRequestType.REGISTER.getName().equals(reqType))
 		{
-			//do register action
+			// do register action
 			try
 			{
 				User userFromDB = UserHelper.getUserFromDBByValue(cs, User.USERNAME_COLUMN_NAME, username);
@@ -123,7 +125,8 @@ public class LoginServlet extends HttpServlet
 		}
 		else
 		{
-			System.out.println("invalid request type");
+			response.setIntHeader("foo", 400);
+//			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
 		}
 	}
 }

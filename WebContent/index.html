@@ -1,13 +1,44 @@
 <html>
 <h3>login page</h3>
-
-<form id="login_form" method="get" action="login">
-    <input hidden name="REQ_TYPE" id="req" value="LOGIN">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+<script type="text/javascript">
+console.log("poop");
+$(document).ready(function(){
+	$('form').submit(function(event){
+		event.preventDefault();
+		var user = $('#user_login').val();
+		var passwd = $('#passwd_login').val();
+		console.log(user);
+		console.log(passwd);
+		var settings = {
+				url: "login",
+				type: "POST",
+				data: "REQ_TYPE=LOGIN&U="+user+"&P="+passwd,
+				success: function(a, b, c){
+					alert(a);
+					alert(b);
+					alert(c);
+					window.location = "https://localhost/soup/HelloWorldServlet";
+				},
+				error: function(a, b, c){
+					alert(a);
+					alert(b);
+					alert(c);
+				}
+		};
+		jQuery.ajax(settings);
+	});
+	return;
+});
+</script>
+<form>
+    <!-- <input hidden name="REQ_TYPE" id="req" value="LOGIN"> --> 
     <label for="user_login">username:</label>
     <input value name="U" id="user_login" type="text" tabindex="20">
 
     <label for="passwd_login">password:</label>
     <input value name="P" id="passwd_login" type="password" tabindex="20"> 
-    <button type="submit" class="button">login</button>
+    <input id="kkklkll" type="submit"value="login"/>
 </form>
+
 </html>
