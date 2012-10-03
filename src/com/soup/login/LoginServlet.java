@@ -1,6 +1,7 @@
 package com.soup.login;
 
 import java.io.IOException;
+import java.util.regex.Pattern;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -8,6 +9,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+
+import org.apache.commons.lang3.StringUtils;
 
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.dao.DaoManager;
@@ -25,6 +28,9 @@ import com.soup.util.DatabaseHelper;
 public class LoginServlet extends HttpServlet
 {
 	private static final long serialVersionUID = 1L;
+	
+	private static final Pattern usernamePattern = Pattern.compile("^[a-z0-9_\\-]{3,15}$");
+	private static final Pattern passwdPattern = Pattern.compile("^[a-z0-9_\\-!@$*&%#]{6,16}$");
 
 	/**
 	 * @see HttpServlet#HttpServlet()
@@ -71,6 +77,11 @@ public class LoginServlet extends HttpServlet
 		String pw = request.getParameter("P");
 		String email = request.getParameter("EMAIL");
 		
+		if(StringUtils.isBlank(username) || !isValidUsername(username) || StringUtils.isBlank(pw) || !isValidPassword(pw))
+		{
+			response.setStatus(HttpServletResponse.SC_PRECONDITION_FAILED);
+		}
+		
 		JdbcPooledConnectionSource cs = DatabaseHelper.getDBConnection();
 		if (LoginRequestType.LOGIN.getName().equals(reqType))
 		{
@@ -81,7 +92,7 @@ public class LoginServlet extends HttpServlet
 				if(UserHelper.verifyUser(cs, username, pw))
 				{
 					session.setAttribute("User", user);
-					response.getWriter().println("logged in successfully :)");
+//					logged in successfully :)
 					response.sendRedirect("HelloWorldServlet");
 				}
 				else
@@ -104,7 +115,8 @@ public class LoginServlet extends HttpServlet
 				
 				if(userFromDB != null)
 				{
-					response.getWriter().print("user name already exists");
+//					user name already exists
+					response.setStatus(HttpServletResponse.SC_CONFLICT);
 				}
 				else
 				{
@@ -116,6 +128,8 @@ public class LoginServlet extends HttpServlet
 					user.setEmail_address(email);
 					userDao.create(user);
 					System.out.println("new user created");
+					session.setAttribute("User", user);
+					response.sendRedirect("HelloWorldServlet");
 				}
 			} 
 			catch (Exception e)
@@ -127,6 +141,30 @@ public class LoginServlet extends HttpServlet
 		{
 			response.setIntHeader("foo", 400);
 //			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+		}
+	}
+	
+	private boolean isValidUsername(String username)
+	{
+		if (usernamePattern.matcher(username).matches())
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
+	
+	private boolean isValidPassword(String passwd)
+	{
+		if (passwdPattern.matcher(passwd).matches())
+		{
+			return true;
+		}
+		else
+		{
+			return false;
 		}
 	}
 }
