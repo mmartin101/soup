@@ -2,6 +2,7 @@ package com.soup.content;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -21,7 +22,7 @@ import com.soup.util.DatabaseHelper;
 /**
  * Servlet implementation class CommentServlet
  */
-@WebServlet("/CommentServlet")
+@WebServlet("/comment")
 public class CommentServlet extends HttpServlet
 {
 	private static final long serialVersionUID = 1L;
@@ -59,25 +60,35 @@ public class CommentServlet extends HttpServlet
 	{
 		HttpSession session = request.getSession();
 		User user = (User) session.getAttribute("user");
-		Picture pic = (Picture) session.getAttribute("picture");
-		String commentFromForm = (String) session.getAttribute("comment");
 		
-		if (user == null || pic == null || StringUtils.isEmpty(commentFromForm))
+		String commentText = request.getParameter("COMMENT");
+		String picID = request.getParameter("PIC_ID");
+
+		if (user == null || picID == null || StringUtils.isEmpty(commentText))
 		{
 			response.setStatus(HttpServletResponse.SC_PRECONDITION_FAILED);
 			return;
 		}
-		
 		// post comment
 		JdbcPooledConnectionSource cs = DatabaseHelper.getDBConnection();
 		try
 		{
+			Dao<Picture, Integer> picDAO = DaoManager.createDao(cs, Picture.class);
+			List<Picture> results = picDAO.queryForEq(Picture.URL_NAME_COLUMN_NAME, picID);
+			if(results.isEmpty())
+			{
+//				invalid pic id
+				response.setStatus(HttpServletResponse.SC_PRECONDITION_FAILED);
+				return;
+			}
+			Picture pic = results.get(0);
 			Dao<Comment, Integer> commentDao = DaoManager.createDao(cs, Comment.class);
 			Comment comment = new Comment();
 			comment.setPicture(pic);
 			comment.setUser(user);
-			comment.setComment(commentFromForm);
+			comment.setComment(commentText);
 			commentDao.create(comment);
+			
 		} catch (SQLException e)
 		{
 			e.printStackTrace();

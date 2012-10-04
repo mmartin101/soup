@@ -54,11 +54,9 @@
 				url : "login",
 				type : "POST",
 				data : "REQ_TYPE=LOGIN&U="+ user + "&P=" + passwd,
-				success : function(a, b, c) {
-					alert(a);
-					alert(b);
-					alert(c);
-					window.location = "https://localhost/soup/HelloWorldServlet";
+				success : function(responseText, statusText, jqXHR) {
+					//should redirect to 
+					window.location.pathname = "/soup/HelloWorldServlet";
 				},
 				error : function(jqXHR, statusText, CodeText) {
 					$('#login_err').show();
@@ -98,11 +96,9 @@
 				url : "login",
 				type : "POST",
 				data : "REQ_TYPE=REGISTER&U="+ user + "&P=" + passwd,
-				success : function(a, b, c) {
-					alert(a);
-					alert(b);
-					alert(c);
-					window.location = "https://localhost/soup/HelloWorldServlet";
+				success : function(responseText, statusText, jqXHR) {
+					//should redirect to 
+					window.location.pathname = "/HelloWorldServlet";
 				},
 				error : function(jqXHR, statusText, CodeText) {
 					$('#register_err').show();

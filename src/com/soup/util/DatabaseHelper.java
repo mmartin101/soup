@@ -21,12 +21,13 @@ public class DatabaseHelper
 			e.printStackTrace();
 		}
 		
-		String url = "jdbc:mysql://192.168.0.25:3306/SOUP";
+		String url = "jdbc:mysql://localhost:3306/SOUP";
 		String username = "max";
 		String password = "bourbosch1";
 		try
 		{
 			connectionSource = new JdbcPooledConnectionSource(url, username, password);
+			System.out.println("im in...");
 			TableUtils.createTableIfNotExists(connectionSource, User.class);
 		}
 		catch (SQLException e)

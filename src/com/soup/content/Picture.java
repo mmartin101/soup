@@ -10,6 +10,8 @@ import com.soup.login.User;
 @DatabaseTable(tableName = "PICTURES")
 public class Picture extends DBObject
 {
+	public static final String URL_NAME_COLUMN_NAME = "URL_NAME";
+	
 	@DatabaseField(columnName = "PATH", canBeNull = false)
 	private String path;
 	//might not need this one
