@@ -1,0 +1,72 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Login</title>
+<link rel="stylesheet" type="text/css" href="style.css" media="all" />
+<script	src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+<script type="text/javascript">
+	console.log("poop");
+	$(document).ready(function() {
+		
+		$('#form_file').submit(function(event) {
+			event.preventDefault();
+			var filename = $('#file_chooser').val();
+			console.log(filename);
+			if(filename.length == 0)
+			{
+				$('#"no_file_err"').show();
+				return;
+			}
+			else
+			{
+				$('#no_file_err').hide();
+			}
+			
+			var settings = {
+				url : "upload",
+				type : "GET",
+				data: filename,
+				contentType: "multipart/form-data",
+				success : function(responseText, statusText, jqXHR) {
+					//should redirect to 
+					$('#upload_success').show();
+				},
+				error : function(jqXHR, statusText, CodeText) {
+					$('#invalid_ext_err').show();
+				}
+			};
+			jQuery.ajax(settings);
+			});
+		return;
+	});
+</script>
+</head>
+<body id="main_body">
+	<div id="form_container">
+		<h1>
+			<a>navigation should go in this area</a>
+		</h1>
+		<form id="form_file" class="appnitro" enctype="multipart/form-data">
+			<div class="form_description">
+				<h2>Image Upload</h2>
+				<p>Please choose an image to upload.</p>
+			</div>
+			<ul>
+				<li id="li_1">
+					<div>
+						<input id="file_chooser" type="file"/>
+					</div>
+				</li>
+				<li class="buttons">
+					<div id="invalid_ext_err" style="display: none; color: red; font-weight: bolder;">Please choose a file with one of the following extensions: jpg, jpeg, gif, png, bmp</div>
+					<div id="no_file_err" style="display: none; color: red; font-weight: bolder;">Please choose a file!</div>
+					<div id="upload_success" style="display: none; color: red; font-weight: bolder;">file uploaded!</div>
+					<input class="button_text" type="submit"/>
+				</li>
+			</ul>
+		</form>
+	</div>
+</body>
+</html>

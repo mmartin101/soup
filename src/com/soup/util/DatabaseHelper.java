@@ -4,6 +4,8 @@ import java.sql.SQLException;
 
 import com.j256.ormlite.jdbc.JdbcPooledConnectionSource;
 import com.j256.ormlite.table.TableUtils;
+import com.soup.content.Comment;
+import com.soup.content.Picture;
 import com.soup.login.User;
 
 public class DatabaseHelper
@@ -21,7 +23,7 @@ public class DatabaseHelper
 			e.printStackTrace();
 		}
 		
-		String url = "jdbc:mysql://localhost:3306/SOUP";
+		String url = "jdbc:mysql://192.168.0.25:3306/SOUP";
 		String username = "max";
 		String password = "bourbosch1";
 		try
@@ -29,6 +31,8 @@ public class DatabaseHelper
 			connectionSource = new JdbcPooledConnectionSource(url, username, password);
 			System.out.println("im in...");
 			TableUtils.createTableIfNotExists(connectionSource, User.class);
+			TableUtils.createTableIfNotExists(connectionSource, Picture.class);
+			TableUtils.createTableIfNotExists(connectionSource, Comment.class);
 		}
 		catch (SQLException e)
 		{

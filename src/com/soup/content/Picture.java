@@ -12,37 +12,12 @@ public class Picture extends DBObject
 {
 	public static final String URL_NAME_COLUMN_NAME = "URL_NAME";
 	
-	@DatabaseField(columnName = "PATH", canBeNull = false)
-	private String path;
-	//might not need this one
-	@DatabaseField(columnName = "FILENAME", canBeNull = false)
-	private String fileName;
 	@DatabaseField(columnName = "URL_NAME", canBeNull = false)
 	private String urlName;
 	@DatabaseField(columnName = "USER_ID", foreign = true)
 	private User user;
 	@ForeignCollectionField(eager = true)
 	private ForeignCollection<Comment> comments;
-	
-	public String getPath()
-	{
-		return path;
-	}
-	
-	public void setPath(String path)
-	{
-		this.path = path;
-	}
-	
-	public String getFileName()
-	{
-		return fileName;
-	}
-	
-	public void setFileName(String fileName)
-	{
-		this.fileName = fileName;
-	}
 	
 	public User getUser()
 	{

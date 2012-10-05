@@ -15,7 +15,17 @@ import javax.servlet.http.HttpSession;
 import org.apache.commons.fileupload.DiskFileUpload;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileUpload;
+import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
+import org.apache.commons.io.FilenameUtils;
+import org.apache.commons.lang3.StringUtils;
+
+import com.j256.ormlite.dao.Dao;
+import com.j256.ormlite.dao.DaoManager;
+import com.j256.ormlite.jdbc.JdbcPooledConnectionSource;
+import com.soup.login.User;
+import com.soup.util.DatabaseHelper;
+import com.soup.util.FilenameGenerator;
 
 /**
  * Servlet implementation class ImageUpload
@@ -24,6 +34,10 @@ import org.apache.commons.fileupload.servlet.ServletFileUpload;
 public class ImageUploadServlet extends HttpServlet
 {
 	private static final long serialVersionUID = 1L;
+	private File repo;
+	private FilenameGenerator generator = new FilenameGenerator();
+	private static String[] validExtensions = {"jpg", "jpeg", "gif", "png", "bmp",};
+	
 
 	/**
 	 * @see HttpServlet#HttpServlet()
@@ -33,6 +47,17 @@ public class ImageUploadServlet extends HttpServlet
 		super();
 		// TODO Auto-generated constructor stub
 	}
+	
+	
+
+	@Override
+	public void init() throws ServletException
+	{
+		super.init();
+		repo = new File(getServletContext().getRealPath("/") + "pics");
+	}
+
+
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
@@ -58,25 +83,24 @@ public class ImageUploadServlet extends HttpServlet
 			HttpServletResponse response)
 	{
 		HttpSession session = request.getSession();
+		User user = (User) session.getAttribute("user");
+		JdbcPooledConnectionSource cs = DatabaseHelper.getDBConnection();
 
 		try
 		{
-
-			FileUpload fup = new FileUpload();
+			// store all files to the disk, sizeThreshold = 0
+			DiskFileItemFactory factory = new DiskFileItemFactory(0, repo);
+			
+			ServletFileUpload  sfu = new ServletFileUpload (factory);
 			boolean isMultipart = ServletFileUpload.isMultipartContent(request);
 			// Create a new file upload handler
 			System.out.println(isMultipart);
-			DiskFileUpload upload = new DiskFileUpload();
 
 			// Parse the request
-			List items = upload.parseRequest(request);
+			List<FileItem> items = sfu.parseRequest(request);
 
-			Iterator iter = items.iterator();
-			while (iter.hasNext())
+			for (FileItem item : items)
 			{
-
-				FileItem item = (FileItem) iter.next();
-
 				if (item.isFormField())
 				{
 					System.out.println("its a field");
@@ -85,15 +109,41 @@ public class ImageUploadServlet extends HttpServlet
 
 				System.out.println("its a file");
 				System.out.println(item.getName());
-				File cfile = new File(item.getName());
-				File tosave = new File(getServletContext().getRealPath("/") + "pics", cfile.getName());
+				
+				// create random file name
+				String extension = FilenameUtils.getExtension(item.getName());
+				if(!isValidExtension(extension))
+				{
+					response.setStatus(HttpServletResponse.SC_UNSUPPORTED_MEDIA_TYPE);
+				}
+				String url_name = generator.generateFilename() + "." + extension;
+				// save file to disk
+				File tosave = new File(repo, url_name);
 				item.write(tosave);
-
+				
+				Dao<Picture, Integer> picDAO = DaoManager.createDao(cs, Picture.class);
+				Picture pic = new Picture();
+				pic.setUrlName(url_name);
+				pic.setUser(user);
+				picDAO.create(pic);
 			}
 		} catch (Exception e)
 		{
-			System.out.println(e);
+			e.printStackTrace();
+//			System.out.println(e);
 		}
+	}
+	
+	private boolean isValidExtension(String ext)
+	{
+		for(String str : validExtensions)
+		{
+			if(StringUtils.equalsIgnoreCase(ext, str))
+			{
+				return true;
+			}
+		}
+		return false;
 	}
 
 }
