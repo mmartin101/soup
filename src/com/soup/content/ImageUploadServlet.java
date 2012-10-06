@@ -89,8 +89,8 @@ public class ImageUploadServlet extends HttpServlet
 		try
 		{
 			// store all files to the disk, sizeThreshold = 0
-			DiskFileItemFactory factory = new DiskFileItemFactory(0, repo);
-			
+			DiskFileItemFactory factory = new DiskFileItemFactory();
+			factory.setSizeThreshold(1024*1024);
 			ServletFileUpload  sfu = new ServletFileUpload (factory);
 			boolean isMultipart = ServletFileUpload.isMultipartContent(request);
 			// Create a new file upload handler
@@ -103,12 +103,12 @@ public class ImageUploadServlet extends HttpServlet
 			{
 				if (item.isFormField())
 				{
-					System.out.println("its a field");
+//					System.out.println("its a field");
 					continue;
 				}
 
-				System.out.println("its a file");
-				System.out.println(item.getName());
+//				System.out.println("its a file");
+//				System.out.println(item.getName());
 				
 				// create random file name
 				String extension = FilenameUtils.getExtension(item.getName());
@@ -130,7 +130,6 @@ public class ImageUploadServlet extends HttpServlet
 		} catch (Exception e)
 		{
 			e.printStackTrace();
-//			System.out.println(e);
 		}
 	}
 	

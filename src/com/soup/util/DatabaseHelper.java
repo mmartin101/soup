@@ -22,17 +22,17 @@ public class DatabaseHelper
 		{
 			e.printStackTrace();
 		}
-		
-		String url = "jdbc:mysql://192.168.0.25:3306/SOUP";
-		String username = "max";
-		String password = "bourbosch1";
+		//commented out for security reasons
+		String url = "XXXXXXXXXXX";
+		String username = "XXXXXXXXXXXX";
+		String password = "XXXXXXXXXXXXX";
 		try
 		{
 			connectionSource = new JdbcPooledConnectionSource(url, username, password);
 			System.out.println("im in...");
-			TableUtils.createTableIfNotExists(connectionSource, User.class);
-			TableUtils.createTableIfNotExists(connectionSource, Picture.class);
-			TableUtils.createTableIfNotExists(connectionSource, Comment.class);
+//			TableUtils.createTableIfNotExists(connectionSource, User.class);
+//			TableUtils.createTableIfNotExists(connectionSource, Picture.class);
+//			TableUtils.createTableIfNotExists(connectionSource, Comment.class);
 		}
 		catch (SQLException e)
 		{
@@ -58,7 +58,6 @@ public class DatabaseHelper
 			{
 				connectionSource.close();
 				System.out.println("db connection closed");
-//				connectionSource.close();
 			}
 		} catch (SQLException e)
 		{
