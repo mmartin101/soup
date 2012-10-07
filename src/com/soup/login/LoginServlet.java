@@ -5,6 +5,7 @@ import java.util.regex.Pattern;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -92,8 +93,9 @@ public class LoginServlet extends HttpServlet
 				if(UserHelper.verifyUser(cs, username, pw))
 				{
 					session.setAttribute("User", user);
+					response.addCookie(new Cookie("user", user.getUser_name()));
 //					logged in successfully :)
-					response.sendRedirect("HelloWorldServlet");
+					response.sendRedirect("/soup/foo.html");
 				}
 				else
 				{
@@ -129,7 +131,7 @@ public class LoginServlet extends HttpServlet
 					userDao.create(user);
 					System.out.println("new user created");
 					session.setAttribute("User", user);
-					response.sendRedirect("HelloWorldServlet");
+					response.sendRedirect("/soup/foo.html");
 				}
 			} 
 			catch (Exception e)

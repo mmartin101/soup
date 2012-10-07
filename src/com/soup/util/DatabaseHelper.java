@@ -23,9 +23,9 @@ public class DatabaseHelper
 			e.printStackTrace();
 		}
 		//commented out for security reasons
-		String url = "XXXXXXXXXXX";
-		String username = "XXXXXXXXXXXX";
-		String password = "XXXXXXXXXXXXX";
+		String url = "jdbc:mysql://192.168.0.25:3306/SOUP";
+		String username = "max";
+		String password = "bourbosch1";
 		try
 		{
 			connectionSource = new JdbcPooledConnectionSource(url, username, password);
