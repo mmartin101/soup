@@ -78,6 +78,22 @@ public class LoginServlet extends HttpServlet
 		String pw = request.getParameter("P");
 		String email = request.getParameter("EMAIL");
 		
+		if (LoginRequestType.LOGOUT.getName().equals(reqType))
+		{
+			System.out.println("loggin out");
+			session.removeAttribute("user");
+			session.invalidate();
+			response.addCookie(new Cookie("user", null));
+			try
+			{
+				response.sendRedirect("/soup");
+			} catch (IOException e)
+			{
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
 		if(StringUtils.isBlank(username) || !isValidUsername(username) || StringUtils.isBlank(pw) || !isValidPassword(pw))
 		{
 			response.setStatus(HttpServletResponse.SC_PRECONDITION_FAILED);
@@ -90,20 +106,17 @@ public class LoginServlet extends HttpServlet
 			User user = UserHelper.getUserFromDBByValue(cs, User.USERNAME_COLUMN_NAME, username);
 			try
 			{
-				if(UserHelper.verifyUser(cs, username, pw))
+				if(UserHelper.verifyUser(user, cs, username, pw))
 				{
 					session.setAttribute("User", user);
 					response.addCookie(new Cookie("user", user.getUser_name()));
-//					logged in successfully :)
-					response.sendRedirect("/soup/foo.html");
 				}
 				else
 				{
 					// user information incorrect
-//					response.setHeader("name", "value :)");
 					response.setStatus(HttpServletResponse.SC_PRECONDITION_FAILED);
 				}
-			} catch (IOException e)
+			} catch (Exception e)
 			{
 				e.printStackTrace();
 			}
@@ -131,7 +144,7 @@ public class LoginServlet extends HttpServlet
 					userDao.create(user);
 					System.out.println("new user created");
 					session.setAttribute("User", user);
-					response.sendRedirect("/soup/foo.html");
+//					response.sendRedirect("/soup/foo.html");
 				}
 			} 
 			catch (Exception e)
@@ -142,7 +155,6 @@ public class LoginServlet extends HttpServlet
 		else
 		{
 			response.setIntHeader("foo", 400);
-//			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
 		}
 	}
 	

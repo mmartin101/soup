@@ -4,6 +4,7 @@ public class LoginRequestType
 {
 	public static final LoginRequestType LOGIN 	  = new LoginRequestType("LOGIN", 0);
 	public static final LoginRequestType REGISTER = new LoginRequestType("REGISTER", 1);
+	public static final LoginRequestType LOGOUT   = new LoginRequestType("LOGOUT", 2);
 	
 	private String name;
 	private Integer id;

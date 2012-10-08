@@ -1,0 +1,122 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Login</title>
+<link rel="stylesheet" type="text/css" href="style.css" media="all" />
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+<script src="script.js"></script>
+<script type="text/javascript">
+	
+</script>
+</head>
+<body id="main_body">
+	<div id="nav_bar" style="text-align:right; word-spacing: 20px;">
+		<h3>
+			<!-- upload link should always show -->
+			
+			<div id="nav_bar_options_user" style="display: none;">
+				<a id="link_upload">upload</a> <a id="link_settings">settings</a> <a id="link_logout">logout</a>
+			</div>
+			<div id="nav_bar_options_no_user" style="display: none;">
+				<a id="link_upload2">upload</a> <a id="link_login_register">login/register</a>
+			</div>
+		</h3>
+	</div>
+	<div id="form_container">
+		<form id="form_login" class="appnitro">
+			<div class="form_description">
+				<h2>Login</h2>
+				<p>
+					Login if you already have an account or <a id="link_register" style="color: blue; font-weight: bolder;">register</a> a new
+					account.
+				</p>
+			</div>
+			<ul>
+				<li id="li_1"><label class="description" for="user_login">Username
+						<a id="login_username_req"
+						style="color: red; font-weight: bolder; display: none;">*</a>
+				</label>
+					<div>
+						<input id="user_login" name="U" class="element text medium"
+							type="text" maxlength="255" value="" />
+					</div></li>
+				<li id="li_2"><label class="description" for="passwd_login">Password
+						<a id="login_passwd_req"
+						style="color: red; font-weight: bolder; display: none;">*</a>
+				</label>
+					<div>
+						<input id="passwd_login" name="P" class="element text medium"
+							type="password" maxlength="255" value="" />
+					</div></li>
+				<li class="buttons">
+					<div id="login_err"
+						style="display: none; color: red; font-weight: bolder;">Invalid
+						login information :(</div>
+					<div id="login_err_footnote"
+						style="display: none; color: red; font-weight: bolder;">* =
+						Required</div> <input class="button_text" type="submit" value="login" />
+				</li>
+			</ul>
+		</form>
+
+		<form id="form_register" class="appnitro" style="display: none">
+			<div class="form_description">
+				<h2>Register</h2>
+				<p>
+					Create a new account or <a id="link_login"
+						style="color: blue; font-weight: bolder;">login</a> if you already
+					have one.
+				</p>
+			</div>
+			<ul>
+				<li id="li_1"><label class="description"
+					for="register_user_login">Username <a
+						id="register_username_req"
+						style="color: red; font-weight: bolder; display: none;">*</a></label>
+					<div>
+						<input id="register_user_login" name="U"
+							class="element text medium" type="text" maxlength="255" value="" />
+					</div></li>
+				<li id="li_2"><label class="description"
+					for="register_passwd_login">Password <a
+						id="register_passwd_req"
+						style="color: red; font-weight: bolder; display: none;">*</a></label>
+					<div>
+						<input id="register_passwd_login" name="P"
+							class="element text medium" type="password" maxlength="255"
+							value="" />
+					</div></li>
+				<li class="buttons">
+					<div id="register_err"
+						style="display: none; color: red; font-weight: bolder;">Username
+						is already taken :(</div>
+					<div id="register_err_footnote"
+						style="display: none; color: red; font-weight: bolder;">* =
+						Required</div> <input class="button_text" type="submit" value="register" />
+				</li>
+			</ul>
+		</form>
+		<form id="form_upload" class="appnitro" enctype="multipart/form-data" action="upload" method="post" style="display:none">
+			<div class="form_description">
+				<h2>Image Upload</h2>
+				<p>Please choose an image to upload.</p>
+			</div>
+			<ul>
+				<li id="li_1">
+					<div>
+						<input id="file_chooser" type="file" name="imgfile"/>
+					</div>
+				</li>
+				<li class="buttons">
+					<div id="invalid_ext_err" style="display: none; color: red; font-weight: bolder;">Please choose a file with one of the following extensions: jpg, jpeg, gif, png, bmp</div>
+					<div id="no_file_err" style="display: none; color: red; font-weight: bolder;">Please choose a file!</div>
+					<div id="upload_success" style="display: none; color: red; font-weight: bolder;">file uploaded!</div>
+					<input class="button_text" type="submit"/>
+				</li>
+			</ul>
+		</form>
+	</div>
+</body>
+</html>
