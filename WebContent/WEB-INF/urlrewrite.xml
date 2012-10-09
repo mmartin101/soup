@@ -23,8 +23,8 @@
         <note>
             for viewing images
         </note>
-        <from>soup/([a-zA-Z0-9]{8})</from>
-        <to>/imgview?id=$1</to>
+        <from>soup/([a-zA-Z0-9]+)</from>
+        <to>/imgdetail?image=$1</to>
     </rule>
     
 

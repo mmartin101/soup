@@ -25,9 +25,10 @@ function getCookieVal(cookieName)
  
 function getImages()
 {
+	// this will retrieve images from [images] to [images + 10]
 	$.getJSON("imgview", "starting_val="+images, function(data) 
 	{
-		
+		//loop through and dynamically add pics
 		$.each(data.pics, function(i,item)
 		{
 			$("<a>").attr({
