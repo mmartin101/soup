@@ -11,9 +11,12 @@ import com.soup.login.User;
 public class Picture extends DBObject
 {
 	public static final String URL_NAME_COLUMN_NAME = "URL_NAME";
+	public static final String FILENAME_COLUMN_NAME = "FILENAME";
 	
 	@DatabaseField(columnName = "URL_NAME", canBeNull = false)
 	private String urlName;
+	@DatabaseField(columnName = "FILENAME", canBeNull = false)
+	private String filename;
 	@DatabaseField(columnName = "USER_ID", foreign = true)
 	private User user;
 	@ForeignCollectionField(eager = true)
@@ -47,5 +50,15 @@ public class Picture extends DBObject
 	public void setUrlName(String urlName)
 	{
 		this.urlName = urlName;
+	}
+
+	public String getFilename()
+	{
+		return filename;
+	}
+
+	public void setFilename(String filename)
+	{
+		this.filename = filename;
 	}
 }

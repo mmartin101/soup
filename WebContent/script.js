@@ -1,3 +1,5 @@
+var images = 1;
+
 function getCookieVal(cookieName) 
 {
 	var allCookies = document.cookie;
@@ -19,6 +21,28 @@ function getCookieVal(cookieName)
 	var value = allCookies.substring(valueStart, valueEnd);
 	value = unescape(value);
 	return (value == "") || (value == "\"\"") ? null : value;
+}
+ 
+function getImages()
+{
+	$.getJSON("imgview", "starting_val="+images, function(data) 
+	{
+		
+		$.each(data.pics, function(i,item)
+		{
+			$("<a>").attr({
+				id: "img_link"+i, 
+				href: "https://localhost/soup/pics/"+item.filename
+				}).appendTo("#images");
+			
+			$("<img/>").attr({
+				id: "img"+i, 
+				src: "https://localhost/soup/pics/"+item.filename,
+				width: 50,
+				height: 50}).prependTo("#img_link"+i);
+		});
+	});
+	
 }
  
 function logout()
@@ -43,6 +67,7 @@ function logout()
 	
 	
 $(document).ready(function() {
+	getImages();
 	// im thinking we can use this so that on the client side we 
 	// can know whether or not the user is logged in
 	var username = getCookieVal("user");

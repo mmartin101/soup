@@ -21,18 +21,10 @@
     
     <rule>
         <note>
-            for image only
-        </note>
-        <from>/pics/([a-zA-Z0-9]{8})\.(jpg|png|gif|jpeg)</from>
-        <to type="redirect">%{context-path}/$1.$2</to>
-    </rule>
-    
-    <rule>
-        <note>
             for viewing images
         </note>
-        <from>/imgview?id=([a-zA-Z0-9]{3})\.(jpg|png|gif|jpeg)</from>
-        <to type="redirect">%{context-path}/$1</to>
+        <from>soup/([a-zA-Z0-9]{8})</from>
+        <to>/imgview?id=$1</to>
     </rule>
     
 
