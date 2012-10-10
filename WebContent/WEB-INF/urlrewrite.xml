@@ -19,11 +19,11 @@
         <to type="redirect">%{context-path}/rewrite-status</to>
     </rule>
     
-    <rule>
+    <rule enabled="true">
         <note>
             for viewing images
         </note>
-        <from>soup/([a-zA-Z0-9]+)</from>
+        <from>([0-9]){8}</from>
         <to>/imgdetail?image=$1</to>
     </rule>
     

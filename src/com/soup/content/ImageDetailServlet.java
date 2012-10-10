@@ -50,7 +50,7 @@ public class ImageDetailServlet extends HttpServlet
 		try
 		{
 			response.setContentType("text/html");
-			response.getWriter().print("image = " + request.getParameter("image"));
+			response.getWriter().print("image=" + request.getParameter("image"));
 		} 
 		catch (IOException e)
 		{
