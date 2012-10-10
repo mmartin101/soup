@@ -18,11 +18,15 @@ a:hover
 	text-decoration: underline;
 }
 
+images
+{
+	margin: 100px 50px;
+}
+
 #form_container
 {
 	background:#fff;
-	
-	margin:0 auto;
+	margin:0px 50px;
 	text-align:left;
 	width:740px;
 }

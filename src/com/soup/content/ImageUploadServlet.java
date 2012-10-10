@@ -108,7 +108,6 @@ public class ImageUploadServlet extends HttpServlet
 				}
 
 //				System.out.println("its a file");
-//				System.out.println(item.getName());
 				
 				// create random file name
 				String extension = FilenameUtils.getExtension(item.getName());
@@ -116,16 +115,20 @@ public class ImageUploadServlet extends HttpServlet
 				{
 					response.setStatus(HttpServletResponse.SC_UNSUPPORTED_MEDIA_TYPE);
 				}
-				String url_name = generator.generateFilename() + "." + extension;
+				String url_name = generator.generateFilename();
 				// save file to disk
-				File tosave = new File(repo, url_name);
+				File tosave = new File(repo, url_name + "." + extension);
 				item.write(tosave);
 				
 				Dao<Picture, Integer> picDAO = DaoManager.createDao(cs, Picture.class);
 				Picture pic = new Picture();
 				pic.setUrlName(url_name);
+				pic.setFilename(url_name + "." + extension);
 				pic.setUser(user);
 				picDAO.create(pic);
+				
+				// until detail servlet/page is working redirect to home
+				response.sendRedirect("/soup");
 			}
 		} catch (Exception e)
 		{

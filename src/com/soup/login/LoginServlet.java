@@ -144,7 +144,6 @@ public class LoginServlet extends HttpServlet
 					userDao.create(user);
 					System.out.println("new user created");
 					session.setAttribute("User", user);
-//					response.sendRedirect("/soup/foo.html");
 				}
 			} 
 			catch (Exception e)

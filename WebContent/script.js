@@ -33,12 +33,12 @@ function getImages()
 		{
 			$("<a>").attr({
 				id: "img_link"+i, 
-				href: "https://localhost/soup/pics/"+item.filename
+				href: "http://jackzilla.com/soup/pics/"+item.filename
 				}).appendTo("#images");
 			
 			$("<img/>").attr({
 				id: "img"+i, 
-				src: "https://localhost/soup/pics/"+item.filename,
+				src: "http://jackzilla.com/soup/pics/"+item.filename,
 				width: 50,
 				height: 50}).prependTo("#img_link"+i);
 		});
@@ -194,8 +194,8 @@ $(document).ready(function() {
 			type : "POST",
 			data : "REQ_TYPE=REGISTER&U=" + user + "&P=" + passwd,
 			success : function(responseText, statusText, jqXHR) {
-				//should redirect to 
-				window.location.pathname = "soup/foo.html";
+				//reload page, should show "hello user_name" 
+				window.location.reload(true);
 			},
 			error : function(jqXHR, statusText, CodeText) {
 				$('#register_err').show();
