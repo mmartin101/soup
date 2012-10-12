@@ -23,7 +23,7 @@
         <note>
             for viewing images
         </note>
-        <from>([0-9]){8}</from>
+        <from>/(.{8})$</from>
         <to>/imgdetail?image=$1</to>
     </rule>
     

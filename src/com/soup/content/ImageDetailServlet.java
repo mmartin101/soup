@@ -1,6 +1,11 @@
 package com.soup.content;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.Scanner;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -15,6 +20,7 @@ import javax.servlet.http.HttpSession;
 public class ImageDetailServlet extends HttpServlet
 {
 	private static final long serialVersionUID = 1L;
+	private StringBuilder html = new StringBuilder();
 
 	/**
 	 * @see HttpServlet#HttpServlet()
@@ -24,6 +30,32 @@ public class ImageDetailServlet extends HttpServlet
 		super();
 		// TODO Auto-generated constructor stub
 	}
+	
+	
+
+	@Override
+	public void init() throws ServletException
+	{
+		// load html stuffs
+		File detail_html = new File(getServletContext().getRealPath("/"), "detail_html");
+		
+		try
+		{
+			Scanner input = new Scanner(detail_html);
+			while(input.hasNext())
+			{
+				html.append(input.next());
+			}
+		} catch (FileNotFoundException e)
+		{
+			System.out.println("we got problems yo...");
+			
+		}
+		
+		super.init();
+	}
+
+
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
@@ -49,8 +81,8 @@ public class ImageDetailServlet extends HttpServlet
 		
 		try
 		{
-			response.setContentType("text/html");
-			response.getWriter().print("image=" + request.getParameter("image"));
+			response.setContentType("text/text");
+			response.getWriter().write(html.toString());
 		} 
 		catch (IOException e)
 		{

@@ -23,7 +23,7 @@ public class DatabaseHelper
 			e.printStackTrace();
 		}
 		//commented out for security reasons
-		String url = "jdbc:mysql://localhost:3306/SOUP";
+		String url = "jdbc:mysql://192.168.0.25:3306/SOUP";
 		String username = "max";
 		String password = "bourbosch1";
 		try

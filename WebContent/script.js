@@ -33,14 +33,13 @@ function getImages()
 		{
 			$("<a>").attr({
 				id: "img_link"+i, 
-				href: "http://jackzilla.com/soup/pics/"+item.filename
+				href: "http://localhost:8080/soup/"+item.urlName
 				}).appendTo("#images");
 			
 			$("<img/>").attr({
 				id: "img"+i, 
-				src: "http://jackzilla.com/soup/pics/"+item.filename,
-				width: 50,
-				height: 50}).prependTo("#img_link"+i);
+				src: "http://localhost:8080/soup/pics/"+item.filename
+				}).width(100).height(100).prependTo("#img_link"+i);
 		});
 	});
 	
