@@ -24,8 +24,8 @@ public class DatabaseHelper
 		}
 		//commented out for security reasons
 		String url = "jdbc:mysql://localhost:3306/SOUP";
-		String username = "max";
-		String password = "bourbosch1";
+		String username = "username";
+		String password = "password";
 		try
 		{
 			connectionSource = new JdbcPooledConnectionSource(url, username, password);
