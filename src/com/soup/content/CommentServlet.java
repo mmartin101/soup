@@ -58,14 +58,15 @@ public class CommentServlet extends HttpServlet
 	
 	private void handleRequest(HttpServletRequest request, HttpServletResponse response)
 	{
-		HttpSession session = request.getSession();
-		User user = (User) session.getAttribute("user");
+		HttpSession session = request.getSession(false);
+		User user = (User) session.getAttribute("User");
 		
-		String commentText = request.getParameter("COMMENT");
-		String picID = request.getParameter("PIC_ID");
+		String commentText = request.getParameter("C");
+		String picID = request.getParameter("P");
 
 		if (user == null || picID == null || StringUtils.isEmpty(commentText))
 		{
+			System.out.println("user is null?? =>  "+(user == null));
 			response.setStatus(HttpServletResponse.SC_PRECONDITION_FAILED);
 			return;
 		}
@@ -77,7 +78,7 @@ public class CommentServlet extends HttpServlet
 			List<Picture> results = picDAO.queryForEq(Picture.URL_NAME_COLUMN_NAME, picID);
 			if(results.isEmpty())
 			{
-//				invalid pic id
+//				System.out
 				response.setStatus(HttpServletResponse.SC_PRECONDITION_FAILED);
 				return;
 			}

@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.lang3.StringUtils;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -27,7 +28,6 @@ import com.soup.util.DatabaseHelper;
 public class ImageViewServlet extends HttpServlet
 {
 	private static final long serialVersionUID = 1L;
-	private String imagePath;
 
 	/**
 	 * @see HttpServlet#HttpServlet()
@@ -37,15 +37,6 @@ public class ImageViewServlet extends HttpServlet
 		super();
 		// TODO Auto-generated constructor stub
 	}
-	
-	@Override
-	public void init() throws ServletException
-	{
-		this.imagePath = getServletContext().getRealPath("/") + "pics";
-		super.init();
-	}
-
-
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse

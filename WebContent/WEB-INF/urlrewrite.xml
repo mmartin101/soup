@@ -9,7 +9,7 @@
 
 -->
 <urlrewrite>
-
+	<!-- 
     <rule>
         <note>
             The rule means that requests to /test/status/ will be redirected to /rewrite-status
@@ -18,17 +18,15 @@
         <from>/test/status/</from>
         <to type="redirect">%{context-path}/rewrite-status</to>
     </rule>
-    
+     -->
     <rule enabled="true">
         <note>
-            for viewing images
+            for viewing image detail
         </note>
         <from>/(.{8})$</from>
-        <to>/imgdetail?image=$1</to>
+        <to>/detail.jsp?img=$1</to>
     </rule>
-    
-
-
+    <!-- 
     <outbound-rule>
         <note>
             The outbound-rule specifies that when response.encodeURL is called (if you are using JSTL c:url)
@@ -41,7 +39,7 @@
         <from>/rewrite-status</from>
         <to>/test/status/</to>
     </outbound-rule>
-
+	 -->
 
     <!--
 

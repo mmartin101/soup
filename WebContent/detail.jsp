@@ -1,15 +1,13 @@
-
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<%@ page language="java" %>
+<%@ page session="true" %>
+<%@ page import="java.util.*" %>
+<html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<title>Login</title>
+<title><% out.print(request.getParameter("img")); %></title>
 <link rel="stylesheet" type="text/css" href="style.css" media="all" />
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
 <script src="script.js"></script>
-<script type="text/javascript">
-	
-</script>
+<script src="detail_script.js"></script>
 </head>
 <body id="main_body">
 	<div id="nav_bar" style="text-align:right; word-spacing: 20px;">
@@ -25,7 +23,7 @@
 		</h3>
 	</div>
 	<div id="form_container">
-		<form id="form_login" class="appnitro">
+		<form id="form_login" class="appnitro" style="display: none">
 			<div class="form_description">
 				<h2>Login</h2>
 				<p>
@@ -120,24 +118,30 @@
 	<div id="image"></div>
 	<div id="comments">
 		<form id="form_post_comment" class="appnitro">
+			<input id="pic_url_name" type="hidden" value="<% out.print(request.getParameter("img")); %>"/>
 			<ul>
-				<li id="li_1"><label class="description" for="comment_field">Comment
-						<a id="comment_req"
-						style="color: red; font-weight: bolder; display: none;">*</a>
-				</label>
+				<li id="li_1">
+					<label class="description" for="comment_field">Comment
+						<a id="comment_req" style="color: red; font-weight: bolder; display: none;">Your comment cannot be empty!</a>
+					</label>
 					<div>
 						<input id="comment_field" name="C" class="textarea.textarea"
 							type="text" maxlength="255" value="" />
-					</div></li>
+					</div>
+				</li>
 				<li class="buttons">
-					<div id="comment_err_footnote"
-						style="display: none; color: red; font-weight: bolder;">* =
-						Required</div> <input class="button_text" type="submit" value="post" />
+					<div id="comment_err_footnote" style="display: none; color: red; font-weight: bolder;">* = Required</div> 
+					<input class="button_text" type="submit" value="post" />
 				</li>
 			</ul>
 		</form>
-		<ul id="comment_list">
-		</ul>
+		<div id="detail_area">
+			<ul id="comment_list">	
+			</ul>
+		</div>
 	</div>
+	<script type="text/javascript">
+		getImageDetail("<% out.print(request.getParameter("img")); %>");
+	</script>
 </body>
 </html>

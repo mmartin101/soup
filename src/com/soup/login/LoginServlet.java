@@ -81,7 +81,7 @@ public class LoginServlet extends HttpServlet
 		if (LoginRequestType.LOGOUT.getName().equals(reqType))
 		{
 			System.out.println("loggin out");
-			session.removeAttribute("user");
+			session.removeAttribute("User");
 			session.invalidate();
 			response.addCookie(new Cookie("user", null));
 			try
@@ -144,6 +144,7 @@ public class LoginServlet extends HttpServlet
 					userDao.create(user);
 					System.out.println("new user created");
 					session.setAttribute("User", user);
+					response.addCookie(new Cookie("user", user.getUser_name()));
 				}
 			} 
 			catch (Exception e)

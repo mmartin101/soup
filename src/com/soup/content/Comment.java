@@ -8,6 +8,10 @@ import com.soup.login.User;
 @DatabaseTable(tableName = "COMMENTS")
 public class Comment extends DBObject
 {
+	public static final String COMMENT_COLUMN_NAME = "COMMENT";
+	public static final String USER_ID_COLUMN_NAME = "USER_ID";
+	public static final String PICTURE_ID_COLUMN_NAME = "PICTURE_ID";
+	
 	@DatabaseField(columnName = "COMMENT")
 	private String comment;
 	@DatabaseField(columnName = "USER_ID", foreign = true)

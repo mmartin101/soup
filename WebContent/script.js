@@ -1,5 +1,3 @@
-var images = 1;
-
 function getCookieVal(cookieName) 
 {
 	var allCookies = document.cookie;
@@ -23,22 +21,26 @@ function getCookieVal(cookieName)
 	return (value == "") || (value == "\"\"") ? null : value;
 }
  
-function getImages()
+function getImages(value)
 {
+	if(value == null || value == undefined)
+	{
+		return;
+	}
 	// this will retrieve images from [images] to [images + 10]
-	$.getJSON("imgview", "starting_val="+images, function(data) 
+	$.getJSON("imgview", "starting_val="+value, function(data) 
 	{
 		//loop through and dynamically add pics
 		$.each(data.pics, function(i,item)
 		{
 			$("<a>").attr({
 				id: "img_link"+i, 
-				href: "http://localhost:8080/soup/"+item.urlName
+				href: "http://jackzilla.com/soup/"+item.urlName
 				}).appendTo("#images");
 			
 			$("<img/>").attr({
 				id: "img"+i, 
-				src: "http://localhost:8080/soup/pics/"+item.filename
+				src: "http://jackzilla.com/soup/pics/"+item.filename
 				}).width(100).height(100).prependTo("#img_link"+i);
 		});
 	});
@@ -48,20 +50,21 @@ function getImages()
 function logout()
 {
 	var settings = 
+	{
+		url : "login",
+		type : "POST",
+		data : "REQ_TYPE=LOGOUT",
+		success : function(responseText, statusText, jqXHR) 
 		{
-			url : "login",
-			type : "POST",
-			data : "REQ_TYPE=LOGOUT",
-			success : function(responseText, statusText, jqXHR) 
-			{
-				//server will send redirect to foo.html
-			},
-			error : function(jqXHR, statusText, CodeText) 
-			{
-				//not sure how you can have an error logging out (O_o)
-			}
-		};
-		jQuery.ajax(settings);
+			window.location.reload(true);
+			
+		},
+		error : function(jqXHR, statusText, CodeText) 
+		{
+			//not sure how you can have an error logging out (O_o)
+		}
+	};
+	jQuery.ajax(settings);
 }	
 	
 	
@@ -82,6 +85,7 @@ $(document).ready(function() {
 		console.log("no user logged in");
 		$('#nav_bar_options_user').hide();
 		$('#nav_bar_options_no_user').show();
+		$('#form_login').hide();
 		
 	}
 	
@@ -193,7 +197,7 @@ $(document).ready(function() {
 			type : "POST",
 			data : "REQ_TYPE=REGISTER&U=" + user + "&P=" + passwd,
 			success : function(responseText, statusText, jqXHR) {
-				//reload page, should show "hello user_name" 
+				
 				window.location.reload(true);
 			},
 			error : function(jqXHR, statusText, CodeText) {
@@ -216,8 +220,6 @@ $(document).ready(function() {
 		{
 			$('#no_file_err').hide();
 		}
-		
-		
-		});
+	});
 	return;
 });
