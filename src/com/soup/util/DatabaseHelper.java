@@ -22,14 +22,14 @@ public class DatabaseHelper
 		{
 			e.printStackTrace();
 		}
-		//commented out for security reasons
+		
 		String url = "jdbc:mysql://localhost:3306/SOUP";
 		String username = "username";
 		String password = "password";
 		try
 		{
 			connectionSource = new JdbcPooledConnectionSource(url, username, password);
-			System.out.println("im in...");
+//			System.out.println("im in...");
 //			TableUtils.createTableIfNotExists(connectionSource, User.class);
 //			TableUtils.createTableIfNotExists(connectionSource, Picture.class);
 //			TableUtils.createTableIfNotExists(connectionSource, Comment.class);
