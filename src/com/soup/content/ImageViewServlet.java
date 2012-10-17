@@ -1,10 +1,6 @@
 package com.soup.content;
 
-import java.io.File;
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -14,7 +10,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.apache.commons.lang3.StringUtils;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -35,7 +30,6 @@ public class ImageViewServlet extends HttpServlet
 	public ImageViewServlet()
 	{
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 	/**

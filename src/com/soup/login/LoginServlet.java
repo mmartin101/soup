@@ -16,8 +16,6 @@ import org.apache.commons.lang3.StringUtils;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.dao.DaoManager;
 import com.j256.ormlite.jdbc.JdbcPooledConnectionSource;
-import com.j256.ormlite.logger.Logger;
-import com.j256.ormlite.logger.LoggerFactory;
 import com.soup.util.BCrypt;
 import com.soup.util.DatabaseHelper;
 
@@ -68,7 +66,7 @@ public class LoginServlet extends HttpServlet
 		DatabaseHelper.killDBConnection();
 		super.destroy();
 	}
-
+	
 	private void handleRequest(HttpServletRequest request, HttpServletResponse response)
 	{
 		HttpSession session = request.getSession();
@@ -89,7 +87,6 @@ public class LoginServlet extends HttpServlet
 				response.sendRedirect("/soup");
 			} catch (IOException e)
 			{
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
@@ -139,6 +136,7 @@ public class LoginServlet extends HttpServlet
 					Dao<User, Integer> userDao = DaoManager.createDao(cs, User.class);
 					User user = new User();
 					user.setUser_name(username);
+					// dont store actual password, store the hash
 					user.setPassword(BCrypt.hashpw(pw, BCrypt.gensalt()));
 					user.setEmail_address(email);
 					userDao.create(user);
